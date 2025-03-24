@@ -1,4 +1,4 @@
-# Restaurant Management System - User Stories
+# Restaurant Management System
 
 ## Project Overview
 
