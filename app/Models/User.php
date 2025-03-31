@@ -17,32 +17,34 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    // Velden die via mass-assignment ingevuld mogen worden
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
+        'phone',
+        'address',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
+    // Voorbeeld van een optie om de rol te beperken tot customer, staff, admin
+    protected $casts = [
+        'role' => 'string',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    // Voeg eventueel een functie toe voor rolcontrole
+    public function isStaff()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->role === 'staff';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCustomer()
+    {
+        return $this->role === 'customer';
     }
 }
