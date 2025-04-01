@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gebruikerslijst</title>
+    <style>
+        .action-links {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-links form {
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,8 +40,12 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->role }}</td>
-            <td>
-                <a href="{{ route('users.edit', $user->id) }}">Edit</a> |
+            <td class="action-links">
+                <a href="{{ route('users.edit', $user->id) }}">Edit</a>
+                @if($user->role === 'staff')
+                | <a href="{{ route('shifts.user', $user->id) }}">Shifts</a>
+                @endif
+                |
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')

@@ -47,4 +47,8 @@ class User extends Authenticatable
     {
         return $this->role === 'customer';
     }
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
 }
