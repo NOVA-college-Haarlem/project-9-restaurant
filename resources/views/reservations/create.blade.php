@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
 <div class="container">
     <h2>Maak een reservering</h2>
     
@@ -31,4 +29,3 @@
         <button type="submit" class="btn btn-primary">Reserveren</button>
     </form>
 </div>
-@endsection
