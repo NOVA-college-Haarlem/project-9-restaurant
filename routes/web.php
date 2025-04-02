@@ -17,6 +17,7 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\LoyaltyController;
 use App\Http\Controllers\RewardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 
 
 Route::get('/', function () {
@@ -136,13 +137,13 @@ Route::resource('tables', TableController::class);
 // Loyalty Program routes
 Route::get('/loyalty', [LoyaltyController::class, 'index'])->name('loyalty.index');
 Route::post('/loyalty/earn', [LoyaltyController::class, 'earnPoints'])->name('loyalty.earn');
-Route::post('/loyalty/check', [LoyaltyController::class, 'checkPoints'])->name('loyalty.check');
+Route::get('/loyalty/check', [LoyaltyController::class, 'checkPoints'])->name('loyalty.check');
 Route::post('/loyalty/redeem', [LoyaltyController::class, 'redeemPoints'])->name('loyalty.redeem');
 
 // Reward routes
 Route::resource('rewards', RewardController::class);
 
-use App\Http\Controllers\PaymentController;
+
 
 Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
 Route::post('/payment/submit', [PaymentController::class, 'processPayment'])->name('payment.submit');

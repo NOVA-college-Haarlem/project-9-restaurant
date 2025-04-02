@@ -25,6 +25,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('tables.index') }}">tafel reserveren</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('loyalty.check') }}">loyalty</a>
+                </li>
             </ul>
         </div>
     </div>
