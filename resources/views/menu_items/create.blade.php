@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <div class="container">
     <h2>Nieuw Gerecht Toevoegen</h2>
 
@@ -33,3 +37,4 @@
         <button type="submit" class="btn btn-primary">Toevoegen</button>
     </form>
 </div>
+@endsection
