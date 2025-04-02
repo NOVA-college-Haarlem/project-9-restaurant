@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsenceController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,3 +82,12 @@ Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 Route::get('/afwezigheid-aanmaken', [AbsenceController::class, 'create'])->name('absences.create');
 Route::post('/afwezigheid-opslaan', [AbsenceController::class, 'store'])->name('absences.store');
 Route::get('/afwezigheden', [AbsenceController::class, 'index'])->name('absences.index');
+
+// Feedback formulier - geen auth middleware meer
+Route::get('/feedback/create', [FeedbackController::class, 'create'])->name('feedback.create');
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+// Feedback overzicht
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+Route::get('/feedback/{feedback}', [FeedbackController::class, 'show'])->name('feedback.show');
+Route::post('/feedback/{feedback}/response', [FeedbackController::class, 'storeResponse'])->name('feedback.response');
