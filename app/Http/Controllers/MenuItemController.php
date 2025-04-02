@@ -13,7 +13,7 @@ class MenuItemController extends Controller
     public function index()
     {
         $menuItems = MenuItem::all();
-        return view('menu_items.index', compact('menuItems'));
+        return view('menu.index', compact('menuItems'));
     }
 
     /**
