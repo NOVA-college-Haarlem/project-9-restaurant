@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
-
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\MenuItemController;
-
 use App\Http\Controllers\ShiftController;
+use App\Http\Controllers\TableController;
+use App\Http\Controllers\LoyaltyController;
+use App\Http\Controllers\RewardController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,7 +28,6 @@ Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edi
 Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
-
 // Customer (Klant) Routes
 Route::get('/orders/menu', [OrderController::class, 'showMenu'])->name('orders.menu');
 Route::post('/orders', [OrderController::class, 'placeOrder'])->name('orders.place');
@@ -42,9 +42,26 @@ Route::get('/menu/create', [MenuItemController::class, 'create'])->name('menu.cr
 Route::post('/menu/store', [MenuItemController::class, 'store'])->name('menu.store');
 Route::resource('menu', MenuItemController::class);
 
+// Shift routes
 Route::resource('shifts', ShiftController::class)->only(['index', 'create', 'store']);
 Route::post('/shifts/{shift}/update-status', [ShiftController::class, 'updateStatus'])->name('shifts.update-status');
-
 Route::get('/shifts/{user}', [ShiftController::class, 'shifts_user'])->name('shifts.user');
-    
 
+// Table routes
+Route::resource('tables', TableController::class);
+
+// Loyalty Program routes
+Route::get('/loyalty', [LoyaltyController::class, 'index'])->name('loyalty.index');
+Route::post('/loyalty/earn', [LoyaltyController::class, 'earnPoints'])->name('loyalty.earn');
+Route::post('/loyalty/check', [LoyaltyController::class, 'checkPoints'])->name('loyalty.check');
+Route::post('/loyalty/redeem', [LoyaltyController::class, 'redeemPoints'])->name('loyalty.redeem');
+
+// Reward routes
+Route::resource('rewards', RewardController::class);
+
+use App\Http\Controllers\PaymentController;
+
+Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('payment.page');
+Route::post('/payment/submit', [PaymentController::class, 'processPayment'])->name('payment.submit');
+Route::post('/payment/split', [PaymentController::class, 'splitBill'])->name('payment.split');
+Route::post('/payment/tip', [PaymentController::class, 'addTip'])->name('payment.tip');

@@ -1,32 +1,53 @@
-<div class="container">
-    <h2>Bestelling Plaatsen</h2>
+@extends('layouts.app')
 
-    <form action="{{ route('orders.place') }}" method="POST">
-        @csrf
+@section('content')
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Bestelling Plaatsen</h2>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 
-        <div class="mb-3">
-            <label for="menu_items" class="form-label">Selecteer gerechten</label>
-            <div id="menu_items" class="form-control">
+    <div class="card shadow p-4">
+        <form action="{{ route('orders.place') }}" method="POST">
+            @csrf
+
+            <div class="mb-3">
                 @foreach($menuItems as $menuItem)
-                    <div class="form-check">
-                        <input type="checkbox" name="menu_items[{{ $menuItem->id }}][id]" value="{{ $menuItem->id }}" class="form-check-input" id="menu_item_{{ $menuItem->id }}">
-                        <label class="form-check-label" for="menu_item_{{ $menuItem->id }}">
-                            {{ $menuItem->name }} (€{{ $menuItem->price }})
-                        </label>
-                        <input type="number" name="menu_items[{{ $menuItem->id }}][quantity]" class="form-control" min="1" value="1">
-                    </div>
+                <div class="menu-item">
+                    <!-- Label voor het menu-item -->
+                    <label for="item_{{ $menuItem->id }}">{{ $menuItem->name }} (€{{ $menuItem->price }})</label>
+
+                    <!-- Verborgen invoerveld voor het item-id -->
+                    <input type="hidden" name="menu_items[{{ $menuItem->id }}][id]" value="{{ $menuItem->id }}">
+
+                    <!-- Getal invoerveld voor de hoeveelheid -->
+                    <input type="number" name="menu_items[{{ $menuItem->id }}][quantity]" min="0" value="0" required>
+                </div>
                 @endforeach
+
             </div>
-        </div>
 
-        <div class="mb-3">
-            <label for="delivery_type" class="form-label">Bezorging of Afhalen</label>
-            <select name="delivery_type" id="delivery_type" class="form-control" required>
-                <option value="delivery">Bezorging</option>
-                <option value="pickup">Afhalen</option>
-            </select>
-        </div>
+            <div class="mb-3">
+                <label for="delivery_type" class="form-label">Bezorging of Afhalen</label>
+                <select name="delivery_type" id="delivery_type" class="form-select" required>
+                    <option value="delivery">Bezorging</option>
+                    <option value="pickup">Afhalen</option>
+                </select>
+            </div>
 
-        <button type="submit" class="btn btn-success">Bestellen</button>
-    </form>
+            <button type="submit" class="btn btn-success w-100">Bestellen en Betalen</button>
+        </form>
+    </div>
 </div>
+@endsection
