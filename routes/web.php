@@ -1,7 +1,28 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AbsenceController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';
+
+
+use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\ReservationController;
 
 use App\Http\Controllers\OrderController;
@@ -42,9 +63,21 @@ Route::get('/menu/create', [MenuItemController::class, 'create'])->name('menu.cr
 Route::post('/menu/store', [MenuItemController::class, 'store'])->name('menu.store');
 Route::resource('menu', MenuItemController::class);
 
-Route::resource('shifts', ShiftController::class)->only(['index', 'create', 'store']);
+// Shift Management Routes
+Route::get('/shifts', [ShiftController::class, 'index'])->name('shifts.index');
+Route::get('/shifts/create', [ShiftController::class, 'create'])->name('shifts.create');
+Route::post('/shifts', [ShiftController::class, 'store'])->name('shifts.store');
+Route::post('/shifts/{shift}/assign', [ShiftController::class, 'assign'])->name('shifts.assign');
 Route::post('/shifts/{shift}/update-status', [ShiftController::class, 'updateStatus'])->name('shifts.update-status');
 
-Route::get('/shifts/{user}', [ShiftController::class, 'shifts_user'])->name('shifts.user');
-    
+// Schedule Routes
+Route::get('/schedule', [ShiftController::class, 'schedule'])->name('shifts.schedule');
+Route::get('/schedule/{view}', [ShiftController::class, 'schedule'])->name('shifts.schedule.view');
 
+// User Shift Routes
+Route::get('/shifts/user/{user}', [ShiftController::class, 'shifts_user'])->name('shifts.user');
+Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+
+Route::get('/afwezigheid-aanmaken', [AbsenceController::class, 'create'])->name('absences.create');
+Route::post('/afwezigheid-opslaan', [AbsenceController::class, 'store'])->name('absences.store');
+Route::get('/afwezigheden', [AbsenceController::class, 'index'])->name('absences.index');

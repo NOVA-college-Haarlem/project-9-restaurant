@@ -43,7 +43,7 @@
             <td class="action-links">
                 <a href="{{ route('users.edit', $user->id) }}">Edit</a>
                 @if($user->role === 'staff')
-                | <a href="{{ route('shifts.user', $user->id) }}">Shifts</a>
+                | <a href="{{ route('users.show', $user->id) }}">Details</a>
                 @endif
                 |
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
@@ -52,6 +52,7 @@
                     <button type="submit" onclick="return confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?')">Delete</button>
                 </form>
             </td>
+
         </tr>
         @endforeach
     </table>
