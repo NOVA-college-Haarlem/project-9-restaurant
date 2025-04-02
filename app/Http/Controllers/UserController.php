@@ -62,12 +62,32 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Gebruiker bijgewerkt!');
     }
-    
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'Gebruiker verwijderd!');
+    }
+
+    public function show($id)
+    {
+        $user = User::with('shifts')->findOrFail($id);
+
+        if ($user->role !== 'staff') {
+            return redirect()->route('users.index')->with('error', 'Alleen staffleden hebben shifts.');
+        }
+
+        // Bereken het totaal aantal gewerkte minuten
+        $totalMinutes = $user->shifts->sum(function ($shift) {
+            return $shift->start_time->diffInMinutes($shift->end_time);
+        });
+
+        // Converteer minuten naar uren en resterende minuten
+        $hours = intdiv($totalMinutes, 60);
+        $minutes = $totalMinutes % 60;
+
+        return view('users.show', compact('user', 'hours', 'minutes'));
     }
 }

@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\Controllers\UserController;
+
+use App\Http\Controllers\AbsenceController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\WaitlistController;
@@ -18,6 +21,23 @@ use App\Http\Controllers\LoyaltyController;
 use App\Http\Controllers\RewardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserController;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';
 
 
 Route::get('/', function () {
@@ -99,14 +119,6 @@ Route::get('/menu-items/filter-results', [MenuItemController::class, 'filter'])-
 // Route voor het bekijken van de details van een menu-item
 Route::get('/menu-items/{id}', [MenuItemController::class, 'show'])->name('menu-items.show');
 
-
-
-
-
-
-
-
-
 Route::resource('menu', MenuItemController::class);
 Route::resource('nutrition', NutritionController::class);
 Route::resource('kitchen-orders', KitchenOrderController::class);
@@ -149,3 +161,30 @@ Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('pay
 Route::post('/payment/submit', [PaymentController::class, 'processPayment'])->name('payment.submit');
 Route::post('/payment/split', [PaymentController::class, 'splitBill'])->name('payment.split');
 Route::post('/payment/tip', [PaymentController::class, 'addTip'])->name('payment.tip');
+// Shift Management Routes
+Route::get('/shifts', [ShiftController::class, 'index'])->name('shifts.index');
+Route::get('/shifts/create', [ShiftController::class, 'create'])->name('shifts.create');
+Route::post('/shifts', [ShiftController::class, 'store'])->name('shifts.store');
+Route::post('/shifts/{shift}/assign', [ShiftController::class, 'assign'])->name('shifts.assign');
+Route::post('/shifts/{shift}/update-status', [ShiftController::class, 'updateStatus'])->name('shifts.update-status');
+
+// Schedule Routes
+Route::get('/schedule', [ShiftController::class, 'schedule'])->name('shifts.schedule');
+Route::get('/schedule/{view}', [ShiftController::class, 'schedule'])->name('shifts.schedule.view');
+
+// User Shift Routes
+Route::get('/shifts/user/{user}', [ShiftController::class, 'shifts_user'])->name('shifts.user');
+Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+
+Route::get('/afwezigheid-aanmaken', [AbsenceController::class, 'create'])->name('absences.create');
+Route::post('/afwezigheid-opslaan', [AbsenceController::class, 'store'])->name('absences.store');
+Route::get('/afwezigheden', [AbsenceController::class, 'index'])->name('absences.index');
+
+// Feedback formulier - geen auth middleware meer
+Route::get('/feedback/create', [FeedbackController::class, 'create'])->name('feedback.create');
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+// Feedback overzicht
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+Route::get('/feedback/{feedback}', [FeedbackController::class, 'show'])->name('feedback.show');
+Route::post('/feedback/{feedback}/response', [FeedbackController::class, 'storeResponse'])->name('feedback.response');
