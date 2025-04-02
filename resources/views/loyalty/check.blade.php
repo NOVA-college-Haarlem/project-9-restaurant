@@ -8,9 +8,11 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <form action="{{ route('loyalty.index') }}" method="GET">
-        <input type="email" name="email" placeholder="Jouw E-mail" required class="form-control mb-2">
-        <button type="submit" class="btn btn-primary">Bekijk Mijn Punten</button>
-    </form>
+    <form action="{{ route('loyalty.check') }}" method="POST">
+    @csrf
+    <input type="email" name="email" placeholder="Jouw E-mail" required class="form-control mb-2">
+    <button type="submit" class="btn btn-primary">Bekijk Mijn Punten</button>
+</form>
+
 </div>
 @endsection
