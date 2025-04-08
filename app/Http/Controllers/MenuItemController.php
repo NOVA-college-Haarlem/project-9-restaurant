@@ -76,7 +76,7 @@ class MenuItemController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string',
-        ]);
+            ]);
 
         // Werk het menu-item bij
         $menuItem->update([

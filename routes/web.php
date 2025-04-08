@@ -11,8 +11,8 @@ use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\NutritionController;
 use App\Http\Controllers\KitchenOrderController;
 use App\Http\Controllers\DeliveryController;
-
-
+use App\Http\Controllers\DigitalMenuController;
+use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\OrderController;
 
 use App\Http\Controllers\ShiftController;
@@ -22,6 +22,8 @@ use App\Http\Controllers\RewardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\IngredientOrderController;
+use App\Http\Controllers\MenuBoardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,8 +61,6 @@ Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
 
-
-
 Route::get('/', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
 Route::post('/events', [EventController::class, 'store'])->name('events.store');
@@ -70,7 +70,7 @@ Route::put('/events/{id}', [EventController::class, 'update'])->name('events.upd
 Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
 
 // Route::resource('waitlists', WaitlistController::class);
- // Toon wachtlijst??
+// Toon wachtlijst??
 Route::get('/waitlist/create', [WaitlistController::class, 'create'])->name('waitlist.create'); // Toon formulier om klant toe te voegen aan wachtlijst
 Route::post('/waitlist/store', [WaitlistController::class, 'store'])->name('waitlist.store'); // Voeg klant toe aan wachtlijst
 Route::get('/waitlist/{id}/edit', [WaitlistController::class, 'edit'])->name('waitlist.edit'); // Toon formulier om klant te bewerken
@@ -188,3 +188,34 @@ Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.s
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
 Route::get('/feedback/{feedback}', [FeedbackController::class, 'show'])->name('feedback.show');
 Route::post('/feedback/{feedback}/response', [FeedbackController::class, 'storeResponse'])->name('feedback.response');
+
+//ingiredient routes
+Route::get('/ingredients', [IngredientController::class, 'index'])->name('ingredients.index');
+Route::get('/ingredients/create', [IngredientController::class, 'create'])->name('ingredients.create');
+Route::post('/ingredients', [IngredientController::class, 'store'])->name('ingredients.store');
+Route::get('/ingredients/{ingredient}/edit', [IngredientController::class, 'edit'])->name('ingredients.edit');
+Route::put('/ingredients/{ingredient}', [IngredientController::class, 'update'])->name('ingredients.update');
+
+Route::get('/ingredients/{ingredient}/usage-history', [IngredientController::class, 'usageHistory'])->name('ingredients.usage-history');
+Route::post('/ingredients/{ingredient}/reduce', [IngredientController::class, 'reduceStock'])->name('ingredients.reduce-stock');
+
+// Index - overzicht van alle orders
+Route::get('/ingredient-orders', [IngredientOrderController::class, 'index'])->name('ingredient-orders.index');
+Route::get('/ingredient-orders/create', [IngredientOrderController::class, 'create'])->name('ingredient-orders.create');
+Route::post('/ingredient-orders', [IngredientOrderController::class, 'store'])->name('ingredient-orders.store');
+Route::get('/ingredient-orders/{ingredientOrder}', [IngredientOrderController::class, 'show'])->name('ingredient-orders.show');
+Route::get('/ingredient-orders/{ingredientOrder}/edit', [IngredientOrderController::class, 'edit'])->name('ingredient-orders.edit');
+Route::put('/ingredient-orders/{ingredientOrder}', [IngredientOrderController::class, 'update'])->name('ingredient-orders.update');
+
+
+Route::get('/digital-menus', [DigitalMenuController::class, 'index'])->name('digital-menus.index');
+Route::get('/digital-menus/create', [DigitalMenuController::class, 'create'])->name('digital-menus.create');
+Route::post('/digital-menus', [DigitalMenuController::class, 'store'])->name('digital-menus.store');
+Route::get('/digital-menus/{id}/edit', [DigitalMenuController::class, 'edit'])->name('digital-menus.edit');
+Route::put('/digital-menus/{id}', [DigitalMenuController::class, 'update'])->name('digital-menus.update');
+Route::delete('/digital-menus/{id}', [DigitalMenuController::class, 'destroy'])->name('digital-menus.destroy');
+
+// Public Routes
+Route::get('/menu-board', [MenuBoardController::class, 'index'])->name('menu-board.index');
+Route::get('/menu-board/{id}', [MenuBoardController::class, 'show'])->name('menu-board.show');
+
