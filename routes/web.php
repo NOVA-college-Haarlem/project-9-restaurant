@@ -11,6 +11,7 @@ use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\NutritionController;
 use App\Http\Controllers\KitchenOrderController;
 use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\DigitalMenuController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\OrderController;
 
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IngredientOrderController;
+use App\Http\Controllers\MenuBoardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -205,4 +207,15 @@ Route::get('/ingredient-orders/{ingredientOrder}', [IngredientOrderController::c
 Route::get('/ingredient-orders/{ingredientOrder}/edit', [IngredientOrderController::class, 'edit'])->name('ingredient-orders.edit');
 Route::put('/ingredient-orders/{ingredientOrder}', [IngredientOrderController::class, 'update'])->name('ingredient-orders.update');
 
+
+Route::get('/digital-menus', [DigitalMenuController::class, 'index'])->name('digital-menus.index');
+Route::get('/digital-menus/create', [DigitalMenuController::class, 'create'])->name('digital-menus.create');
+Route::post('/digital-menus', [DigitalMenuController::class, 'store'])->name('digital-menus.store');
+Route::get('/digital-menus/{id}/edit', [DigitalMenuController::class, 'edit'])->name('digital-menus.edit');
+Route::put('/digital-menus/{id}', [DigitalMenuController::class, 'update'])->name('digital-menus.update');
+Route::delete('/digital-menus/{id}', [DigitalMenuController::class, 'destroy'])->name('digital-menus.destroy');
+
+// Public Routes
+Route::get('/menu-board', [MenuBoardController::class, 'index'])->name('menu-board.index');
+Route::get('/menu-board/{id}', [MenuBoardController::class, 'show'])->name('menu-board.show');
 
