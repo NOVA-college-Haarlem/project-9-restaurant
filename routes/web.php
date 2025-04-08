@@ -12,6 +12,7 @@ use App\Http\Controllers\NutritionController;
 use App\Http\Controllers\KitchenOrderController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\DigitalMenuController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\OrderController;
 
@@ -26,7 +27,7 @@ use App\Http\Controllers\IngredientOrderController;
 use App\Http\Controllers\MenuBoardController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home.index');
 });
 
 Route::get('/dashboard', function () {
@@ -41,10 +42,9 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Reservation routes
 Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
@@ -61,7 +61,7 @@ Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
 
-Route::get('/', [EventController::class, 'index'])->name('events.index');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
 Route::post('/events', [EventController::class, 'store'])->name('events.store');
 Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
@@ -219,3 +219,4 @@ Route::delete('/digital-menus/{id}', [DigitalMenuController::class, 'destroy'])-
 Route::get('/menu-board', [MenuBoardController::class, 'index'])->name('menu-board.index');
 Route::get('/menu-board/{id}', [MenuBoardController::class, 'show'])->name('menu-board.show');
 
+Route::get('/home/links', [HomeController::class, 'links'])->name('home.links');

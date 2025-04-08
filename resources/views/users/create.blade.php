@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -57,4 +55,4 @@
 </body>
 
 </html>
-@endsection
+</x-app-layout>

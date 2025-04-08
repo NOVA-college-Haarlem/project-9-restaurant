@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <div class="container">
     <h1>Tafelbeheer</h1>
 
@@ -42,4 +40,4 @@
         </tbody>
     </table>
 </div>
-@endsection
+</x-app-layout>
