@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
 <div class="container mt-5">
     <h2 class="text-center mb-4">Bestelling Plaatsen</h2>
     @if ($errors->any())
@@ -50,4 +48,4 @@
         </form>
     </div>
 </div>
-@endsection
+</x-app-layout>

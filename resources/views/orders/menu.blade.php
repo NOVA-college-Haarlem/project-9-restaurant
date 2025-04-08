@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-app-layout>
     <h1>Menu</h1>
     <form action="{{ route('orders.place') }}" method="POST">
         @csrf
@@ -22,4 +20,4 @@
         </div>
         <button type="submit">Bestelling Plaatsen</button>
     </form>
-@endsection
+    </x-app-layout>
