@@ -6,52 +6,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nieuwe Gebruiker Toevoegen</title>
+    <style>
+        
+    </style>
 </head>
 
 <body>
-    <h1>Nieuwe Gebruiker Toevoegen</h1>
+    <div class="add-user-container">
+        <h1 class="add-user-title">Nieuwe Gebruiker Toevoegen</h1>
 
-    @if(session('success'))
-    <p style="color: green;">{{ session('success') }}</p>
-    @endif
+        @if(session('success'))
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
 
-    <form action="{{ route('users.store') }}" method="POST">
-        @csrf
-        <label>Naam:</label>
-        <input type="text" name="name" required>
-        <br>
+        <form action="{{ route('users.store') }}" method="POST">
+            @csrf
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
-        <br>
+            <div class="form-group">
+                <label class="form-label">Naam:</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
 
-        <label>Wachtwoord:</label>
-        <input type="password" name="password" required>
-        <br>
+            <div class="form-group">
+                <label class="form-label">Email:</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
 
-        <label>Bevestig Wachtwoord:</label>
-        <input type="password" name="password_confirmation" required>
-        <br>
+            <div class="form-group">
+                <label class="form-label">Wachtwoord:</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
 
-        <label>Rol:</label>
-        <select name="role" required>
-            <option value="customer">Customer</option>
-            <option value="staff">Staff</option>
-            <option value="admin">Admin</option>
-        </select>
-        <br>
+            <div class="form-group">
+                <label class="form-label">Bevestig Wachtwoord:</label>
+                <input type="password" name="password_confirmation" class="form-control" required>
+            </div>
 
-        <button type="submit">Gebruiker Aanmaken</button>
-    </form>
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+            <div class="form-group">
+                <label class="form-label">Rol:</label>
+                <select name="role" class="form-control form-control-select" required>
+                    <option value="customer">Customer</option>
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Gebruiker Aanmaken</button>
+        </form>
+
+        @if ($errors->any())
+        <div class="alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     </div>
-    @endif
 </body>
 
 </html>

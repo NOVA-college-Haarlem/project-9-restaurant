@@ -176,7 +176,7 @@ Route::get('/schedule/{view}', [ShiftController::class, 'schedule'])->name('shif
 Route::get('/shifts/user/{user}', [ShiftController::class, 'shifts_user'])->name('shifts.user');
 Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
-Route::get('/afwezigheid-aanmaken', [AbsenceController::class, 'create'])->name('absences.create');
+Route::get('/afwezigheden-aanmaken', [AbsenceController::class, 'create'])->name('absences.create');
 Route::post('/afwezigheid-opslaan', [AbsenceController::class, 'store'])->name('absences.store');
 Route::get('/afwezigheden', [AbsenceController::class, 'index'])->name('absences.index');
 

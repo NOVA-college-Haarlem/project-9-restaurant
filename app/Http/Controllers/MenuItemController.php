@@ -76,7 +76,7 @@ class MenuItemController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string',
-            ]);
+        ]);
 
         // Werk het menu-item bij
         $menuItem->update([
@@ -97,5 +97,11 @@ class MenuItemController extends Controller
     {
         $menuItem->delete();
         return redirect()->route('menu-items.index')->with('success', 'Menu item succesvol verwijderd!');
+    }
+    public function menuBoard()
+    {
+        $items = MenuItem::all();
+        $categories = MenuItem::distinct()->pluck('category');
+        return view('menu-board.index', compact('items', 'categories'));
     }
 }

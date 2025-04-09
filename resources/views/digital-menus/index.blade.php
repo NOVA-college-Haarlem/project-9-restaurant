@@ -1,58 +1,18 @@
-<x-app-layout>
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Manage Digital Menus</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            .table-image {
-                max-width: 100px;
-                height: auto;
-            }
-
-            .action-buttons {
-                min-width: 200px;
-            }
-
-            .status-indicator {
-                width: 15px;
-                height: 15px;
-                border-radius: 50%;
-                display: inline-block;
-            }
-
-            .active-status {
-                background-color: #28a745;
-            }
-
-            .inactive-status {
-                background-color: #dc3545;
-            }
-        </style>
-    </head>
-
-    <body>
-        <div class="container mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+    <x-app-layout>
+        
+        <div class="menu-management-container">
+            <div class="menu-header">
                 <h1>Manage Digital Menus</h1>
                 <a href="{{ route('digital-menus.create') }}" class="btn btn-primary">
                     Create New
                 </a>
             </div>
 
-            @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
+
 
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
+                <table class="menu-table">
+                    <thead>
                         <tr>
                             <th>Status</th>
                             <th>Image</th>
@@ -74,7 +34,7 @@
                                 @if($menu->image_path)
                                 <img src="{{ asset('storage/'.$menu->image_path) }}"
                                     alt="{{ $menu->name }}"
-                                    class="table-image img-thumbnail">
+                                    class="table-image">
                                 @else
                                 <span class="text-muted">No image</span>
                                 @endif
@@ -82,7 +42,7 @@
                             <td>{{ $menu->name }}</td>
                             <td>${{ number_format($menu->price, 2) }}</td>
                             <td>
-                                <span class="badge bg-secondary">{{ $menu->category }}</span>
+                                <span class="badge-secondary">{{ $menu->category }}</span>
                             </td>
                             <td>
                                 @if($menu->schedule_start && $menu->schedule_end)
@@ -95,7 +55,7 @@
                             </td>
                             <td class="action-buttons">
                                 <a href="{{ route('digital-menus.edit', $menu->id) }}"
-                                    class="btn btn-sm btn-outline-warning">
+                                    class="btn btn-outline-warning">
                                     Edit
                                 </a>
                                 <form action="{{ route('digital-menus.destroy', $menu->id) }}"
@@ -104,7 +64,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="btn btn-sm btn-outline-danger"
+                                        class="btn btn-outline-danger"
                                         onclick="return confirm('Are you sure?')">
                                         Delete
                                     </button>
@@ -123,9 +83,4 @@
                 </table>
             </div>
         </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-
-    </html>
-</x-app-layout>
+    </x-app-layout>

@@ -1,5 +1,16 @@
 <x-app-layout>
-    @section('content')
+    <!DOCTYPE html>
+    <html lang="nl">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            
+        </style>
+    </head>
+
+    <body>
         <!-- Hero Section -->
         <div class="bg-restaurant-hero bg-cover py-20 px-4">
             <div class="max-w-7xl mx-auto text-center">
@@ -24,5 +35,7 @@
 
         <!-- Reservation Modal -->
         @include('home.modals.reservation')
-    @endsection
+    </body>
+
+    </html>
 </x-app-layout>

@@ -6,62 +6,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Digital Menu Board</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
-            .menu-item-card {
-                transition: transform 0.2s;
-                min-height: 400px;
-            }
 
-            .menu-item-card:hover {
-                transform: translateY(-5px);
-            }
-
-            .special-offer {
-                border: 3px solid #ffc107;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .special-badge {
-                position: absolute;
-                top: 10px;
-                right: -30px;
-                transform: rotate(45deg);
-                width: 120px;
-                text-align: center;
-                background: #ffc107;
-                color: #000;
-                font-weight: bold;
-            }
-
-            .layout-selector .btn {
-                min-width: 120px;
-            }
-
-            .filter-group {
-                margin-bottom: 1rem;
-            }
         </style>
     </head>
 
     <body>
-        <div class="container mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Our Digital Menu</h1>
-                <div class="layout-selector">
-                    <div class="btn-group">
-                        @foreach(['main', 'bar', 'drive_thru', 'mobile'] as $layout)
-                        <a href="?layout={{ $layout }}"
-                            class="btn btn-outline-primary {{ $selectedLayout === $layout ? 'active' : '' }}">
-                            {{ ucfirst(str_replace('_', ' ', $layout)) }}
-                        </a>
-                        @endforeach
-                    </div>
-                </div>
+        <div class="menu-board-container">
+            <div class="header-layout">
+                <h1 class="menu-title">Our Digital Menu</h1>
             </div>
 
-            <div class="row mb-4 g-3">
+            <div class="row mb-4 g-3 filter-group">
                 <div class="col-md-4">
                     <select class="form-select" id="categoryFilter">
                         <option value="">All Categories</option>
@@ -83,13 +39,13 @@
                 </div>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="menuItems">
+            <div class="menu-items-grid" id="menuItems">
                 @forelse($items as $item)
-                <div class="col menu-item"
+                <div class="menu-item"
                     data-category="{{ $item->category }}"
                     data-dietary="{{ implode(',', $item->dietary_preferences ?? []) }}"
                     data-name="{{ strtolower($item->name) }}">
-                    <div class="card h-100 menu-item-card {{ $item->is_special_offer ? 'special-offer' : '' }}">
+                    <div class="menu-item-card {{ $item->is_special_offer ? 'special-offer' : '' }}">
                         @if($item->is_special_offer)
                         <div class="special-badge">SPECIAL</div>
                         @endif
@@ -97,16 +53,14 @@
                         @if($item->image_path)
                         <img src="{{ asset('storage/'.$item->image_path) }}"
                             class="card-img-top"
-                            alt="{{ $item->name }}"
-                            style="height: 200px; object-fit: cover;">
+                            alt="{{ $item->name }}">
                         @endif
 
-                        <div class="card-body d-flex flex-column">
+                        <div class="card-body">
                             <h5 class="card-title">{{ $item->name }}</h5>
-                            <p class="card-text flex-grow-1">{{ $item->description }}</p>
 
                             <div class="mt-auto">
-                                <p class="h4 text-primary">${{ number_format($item->price, 2) }}</p>
+                                <p class="menu-price">${{ number_format($item->price, 2) }}</p>
 
                                 <div class="d-flex gap-2 flex-wrap mb-3">
                                     @foreach($item->dietary_preferences ?? [] as $preference)
@@ -118,7 +72,7 @@
                                 </div>
 
                                 <a href="{{ route('menu-board.show', $item->id) }}"
-                                    class="btn btn-outline-primary w-100">
+                                    class="btn btn-outline-primary">
                                     View Details
                                 </a>
                             </div>
@@ -135,7 +89,6 @@
             </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const filters = {

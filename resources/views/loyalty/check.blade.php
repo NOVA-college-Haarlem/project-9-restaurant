@@ -1,18 +1,31 @@
-@extends('layouts.app')
+<x-app-layout>
+    <!DOCTYPE html>
+    <html lang="nl">
 
-@section('content')
-<div class="container">
-    <h1>Check Jouw Loyalty Punten</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Check Jouw Loyalty Punten</title>
+        <style>
+            
+        </style>
+    </head>
 
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
+    <body>
+        <div class="loyalty-container">
+            <h1 class="loyalty-title">Check Jouw Loyalty Punten</h1>
 
-    <form action="{{ route('loyalty.check') }}" method="POST">
-    @csrf
-    <input type="email" name="email" placeholder="Jouw E-mail" required class="form-control mb-2">
-    <button type="submit" class="btn btn-primary">Bekijk Mijn Punten</button>
-</form>
+            @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
 
-</div>
-@endsection
+            <form action="{{ route('loyalty.check') }}" method="POST" class="loyalty-form">
+                @csrf
+                <input type="email" name="email" placeholder="Jouw E-mail" required class="form-control">
+                <button type="submit" class="submit-btn">Bekijk Mijn Punten</button>
+            </form>
+        </div>
+    </body>
+
+    </html>
+</x-app-layout>
