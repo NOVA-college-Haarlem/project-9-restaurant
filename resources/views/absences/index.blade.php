@@ -1,8 +1,17 @@
 <x-app-layout>
-    <div class="container">
-        <h1>Overzicht afwezigheden</h1>
+    <style>
+        
+    </style>
 
-        <table class="table">
+    <div class="absence-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h1 class="absence-title">Overzicht Afwezigheden</h1>
+            <a href="{{ route('absences.create') }}" class="create-btn">
+                Afwezigheid aanmaken
+            </a>
+        </div>
+
+        <table class="absence-table">
             <thead>
                 <tr>
                     <th>Medewerker</th>
@@ -14,7 +23,16 @@
             </thead>
             <tbody>
                 @foreach($absences as $absence)
-                <tr>
+                @php
+                    $today = now();
+                    $rowClass = '';
+                    if ($today->between($absence->start_date, $absence->end_date)) {
+                        $rowClass = 'current-absence';
+                    } elseif ($today->lt($absence->start_date)) {
+                        $rowClass = 'future-absence';
+                    }
+                @endphp
+                <tr class="{{ $rowClass }}">
                     <td>{{ $absence->user->name }}</td>
                     <td>{{ $absence->start_date->format('d-m-Y') }}</td>
                     <td>{{ $absence->end_date->format('d-m-Y') }}</td>

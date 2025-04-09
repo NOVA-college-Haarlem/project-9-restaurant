@@ -1,34 +1,41 @@
-@extends('layouts.app')
+<x-app-layout>
+    <!DOCTYPE html>
+    <html lang="nl">
 
-@section('content')
-<div class="container">
-    <h1>Loyalty Program</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            
+        </style>
+    </head>
 
-    <p><strong>Huidige punten:</strong> {{ $totalPoints }}</p>
+    <body>
+        <!-- Hero Section -->
+        <div class="bg-restaurant-hero bg-cover py-20 px-4">
+            <div class="max-w-7xl mx-auto text-center">
+                <h1 class="text-4xl font-bold text-white mb-6">Welkom bij [Restaurantnaam]</h1>
+                <div class="flex justify-center gap-4">
+                    <a href="{{ route('reservations.create') }}" class="btn-primary">Reserveren</a>
+                    <a href="{{ route('menu.index') }}" class="btn-secondary">Bekijk Menu</a>
+                </div>
+            </div>
+        </div>
 
-    <h3>Punten Geschiedenis</h3>
-    <ul>
-        @foreach($history as $entry)
-            <li>{{ $entry->description }} - {{ $entry->points }} punten</li>
-        @endforeach
-    </ul>
+        <!-- Kernfunctionaliteiten Grid -->
+        <div class="max-w-7xl mx-auto py-12 px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @include('home.partials.grid-item-reservation')
+                @include('home.partials.grid-item-menu')
+                @include('home.partials.grid-item-events')
+                @include('home.partials.grid-item-loyalty')
+                @include('home.partials.grid-item-feedback')
+            </div>
+        </div>
 
-    <h3>Beschikbare Beloningen</h3>
-    <ul>
-        @foreach($rewards as $reward)
-            <li>
-                {{ $reward->name }} - {{ $reward->points_required }} punten
-                @if($totalPoints >= $reward->points_required)
-                    <form action="{{ route('loyalty.redeem') }}" method="POST" style="display:inline;">
-                        @csrf
-                        <input type="hidden" name="reward_id" value="{{ $reward->id }}">
-                        <button type="submit" class="btn btn-success btn-sm">Inwisselen</button>
-                    </form>
-                @else
-                    <button class="btn btn-secondary btn-sm" disabled>Niet genoeg punten</button>
-                @endif
-            </li>
-        @endforeach
-    </ul>
-</div>
-@endsection
+        <!-- Reservation Modal -->
+        @include('home.modals.reservation')
+    </body>
+
+    </html>
+</x-app-layout>

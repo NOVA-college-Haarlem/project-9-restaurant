@@ -13,17 +13,7 @@ class MenuBoardController extends Controller
         $now = Carbon::now();
         $selectedLayout = $request->input('layout', 'main'); // Get layout from request or default to 'main'
 
-        $items = DigitalMenu::where('layout_type', $selectedLayout)
-            ->where(function ($query) use ($now) {
-                $query->whereNull('schedule_start')
-                    ->orWhere('schedule_start', '<=', $now);
-            })
-            ->where(function ($query) use ($now) {
-                $query->whereNull('schedule_end')
-                    ->orWhere('schedule_end', '>=', $now);
-            })
-            ->get();
-
+        $items = DigitalMenu::all();
         $categories = DigitalMenu::distinct()->pluck('category');
 
         return view('menu-board.index', [
